@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Fullstack: Flutter + NestJS",
+      "configurations": ["Flutter App", "NestJS"]
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Flutter App",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend"
+    },
+    {
+      "name": "NestJS",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:debug"],
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
