@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:frontend/modules/settings/settings_store.dart';
-import 'package:frontend/router/router.dart';
+import 'package:frontend/routing/router.dart';
+import 'package:frontend/ui/settings/view_models/settings_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-final _settingsStore = Modular.get<SettingsStore>();
-
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
   @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
   Widget build(BuildContext context) {
-    return Observer(builder: (context) {
-      return MaterialApp.router(
-        routerConfig: router,
-        title: 'Notion Clone',
-        darkTheme: ThemeData.dark(),
-        theme: ThemeData.light(),
-        themeMode: _settingsStore.themeMode,
-      );
-    });
+    final settingsViewmodel = context.read<SettingsViewmodel>();
+
+    return ListenableBuilder(
+      listenable: settingsViewmodel,
+      builder: (context, _) {
+        return MaterialApp.router(
+          routerConfig: router,
+          title: 'Notion Clone',
+          darkTheme: ThemeData.dark(),
+          theme: ThemeData.light(),
+          themeMode: settingsViewmodel.themeMode,
+        );
+      },
+    );
   }
 }

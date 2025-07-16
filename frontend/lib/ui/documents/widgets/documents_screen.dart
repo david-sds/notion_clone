@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:frontend/models/document_model.dart';
-import 'package:frontend/modules/documents/documents_store.dart';
+import 'package:frontend/domain/models/document/document_model.dart';
+import 'package:frontend/ui/documents/view_models/documents_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
-final _documentsStore = Modular.get<DocumentsStore>();
+class DocumentsScreen extends StatefulWidget {
+  const DocumentsScreen({
+    required this.viewmodel,
+    super.key,
+  });
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final DocumentsViewmodel viewmodel;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<DocumentsScreen> createState() => _DocumentsScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _DocumentsScreenState extends State<DocumentsScreen> {
   @override
   void initState() {
-    _documentsStore.load();
+    widget.viewmodel.load();
     super.initState();
   }
 
@@ -37,13 +38,13 @@ class _HomePageState extends State<HomePage> {
           children: [
             TextButton(
               onPressed: () {
-                _documentsStore.load();
+                widget.viewmodel.load();
               },
               child: const Text('Load'),
             ),
             TextButton(
               onPressed: () {
-                _documentsStore.create(
+                widget.viewmodel.create(
                   const Document(
                     title: 'oi',
                   ),
@@ -53,14 +54,14 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                final documentId = _documentsStore.documents.lastOrNull?.id;
+                final documentId = widget.viewmodel.documents.lastOrNull?.id;
                 if (documentId == null) {
                   return;
                 }
-                _documentsStore.update(
+                widget.viewmodel.update(
                   documentId,
                   Document(
-                    title: _documentsStore.documents.length.toStringAsFixed(1),
+                    title: widget.viewmodel.documents.length.toStringAsFixed(1),
                   ),
                 );
               },
@@ -68,11 +69,11 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                final documentId = _documentsStore.documents.lastOrNull?.id;
+                final documentId = widget.viewmodel.documents.lastOrNull?.id;
                 if (documentId == null) {
                   return;
                 }
-                _documentsStore.delete(
+                widget.viewmodel.delete(
                   documentId,
                 );
               },
@@ -80,14 +81,15 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        Observer(
-          builder: (context) => Expanded(
+        ListenableBuilder(
+          listenable: widget.viewmodel,
+          builder: (context, _) => Expanded(
             child: ListView(
               shrinkWrap: true,
               children: List.generate(
-                _documentsStore.documents.length,
+                widget.viewmodel.documents.length,
                 (index) => Text(
-                  _documentsStore.documents[index].title,
+                  widget.viewmodel.documents[index].title,
                 ),
               ),
             ),

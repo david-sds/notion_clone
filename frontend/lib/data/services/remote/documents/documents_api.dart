@@ -1,5 +1,5 @@
-import 'package:frontend/api/crud.dart';
-import 'package:frontend/models/document_model.dart';
+import 'package:frontend/data/services/remote/crud.dart';
+import 'package:frontend/domain/models/document/document_model.dart';
 
 class DocumentsApi extends CRUD<Document> {
   DocumentsApi()

@@ -1,4 +1,4 @@
-import 'package:frontend/core/http/http.dart';
+import 'package:frontend/data/services/remote/http.dart';
 
 final http = HTTP();
 

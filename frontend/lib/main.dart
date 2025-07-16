@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:frontend/app/app.dart';
-import 'package:frontend/modules/app_module.dart';
+import 'package:frontend/data/services/local/database.dart';
+import 'package:frontend/data/services/local/documents/documents_dao.dart';
+import 'package:frontend/ui/documents/view_models/documents_viewmodel.dart';
+import 'package:frontend/ui/settings/view_models/settings_viewmodel.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
-  await dotenv.load(fileName: 'env');
   setPathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
   runApp(
-    ModularApp(
-      module: AppModule(),
+    MultiProvider(
+      providers: [
+        Provider(create: (context) => AppDatabase()),
+        Provider(create: (context) => DocumentsDao(context.read())),
+        ChangeNotifierProvider(create: (_) => SettingsViewmodel()),
+        ChangeNotifierProvider(
+          create: (context) => DocumentsViewmodel(documentsDao: context.read()),
+        ),
+      ],
       child: const App(),
     ),
   );

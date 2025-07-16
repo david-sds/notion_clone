@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:frontend/core/database/tables/documents_table.dart';
-import 'package:frontend/core/database/tables/operations_table.dart';
-import 'package:frontend/models/document_model.dart';
+import 'package:frontend/data/services/local/documents/documents_dao.dart';
+import 'package:frontend/data/services/local/documents/documents_table.dart';
+import 'package:frontend/data/services/local/operations/operations_table.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,8 +10,11 @@ part 'database.g.dart';
 
 @DriftDatabase(
   tables: [
-    Documents,
-    Operations,
+    DocumentsTable,
+    OperationsTable,
+  ],
+  daos: [
+    DocumentsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

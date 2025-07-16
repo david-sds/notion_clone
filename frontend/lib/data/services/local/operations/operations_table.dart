@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-class Operations extends Table {
+class OperationsTable extends Table {
   TextColumn get id => text()();
   TextColumn get entity => text()();
   TextColumn get type => text()();
