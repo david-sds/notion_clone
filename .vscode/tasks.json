@@ -4,16 +4,10 @@
     {
       "label": "Run Build Runner (Watch)",
       "type": "shell",
-      "command": "flutter",
-      "args": [
-        "pub",
-        "run",
-        "build_runner",
-        "watch",
-        "--delete-conflicting-outputs"
-      ],
+      "command": "dart",
+      "args": ["run", "build_runner", "watch", "--delete-conflicting-outputs"],
       "options": {
-        "cwd": "${workspaceFolder}/frontend"
+        "cwd": "${workspaceFolder}/notion_clone_frontend"
       },
       "group": {
         "kind": "build",

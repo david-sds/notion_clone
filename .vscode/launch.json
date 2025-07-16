@@ -11,7 +11,7 @@
       "name": "Flutter App",
       "type": "dart",
       "request": "launch",
-      "cwd": "${workspaceFolder}/frontend"
+      "cwd": "${workspaceFolder}/notion_clone_frontend"
     },
     {
       "name": "NestJS",
@@ -19,7 +19,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start:debug"],
-      "cwd": "${workspaceFolder}/backend",
+      "cwd": "${workspaceFolder}/notion_clone_backend",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
