@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
-import 'package:notion_clone_frontend/data/services/local/documents/documents_dao.dart';
+import 'package:notion_clone_frontend/data/repository/documents/documents_repository.dart';
 import 'package:notion_clone_frontend/domain/models/document/document_model.dart';
 
 class DocumentsViewmodel extends ChangeNotifier {
   DocumentsViewmodel({
-    required DocumentsDao documentsDao,
-  }) : _documentsDao = documentsDao;
+    required DocumentsRepository documentsRepository,
+  }) : _documentsRepository = documentsRepository;
 
-  late final DocumentsDao _documentsDao;
+  late final DocumentsRepository _documentsRepository;
 
   List<Document> _documents = [];
   List<Document> get documents => _documents;
@@ -15,7 +15,7 @@ class DocumentsViewmodel extends ChangeNotifier {
 
   Future<void> create(Document payload) async {
     try {
-      await _documentsDao.insertDocument(payload);
+      await _documentsRepository.createDocument(payload);
 
       await load();
     } catch (e) {
@@ -23,9 +23,9 @@ class DocumentsViewmodel extends ChangeNotifier {
     }
   }
 
-  Future<void> update(String id, Document payload) async {
+  Future<void> update(Document payload) async {
     try {
-      await _documentsDao.updateDocument(id, payload);
+      await _documentsRepository.updateDocument(payload);
 
       await load();
     } catch (e) {
@@ -33,9 +33,9 @@ class DocumentsViewmodel extends ChangeNotifier {
     }
   }
 
-  Future<void> delete(String id) async {
+  Future<void> delete(Document payload) async {
     try {
-      await _documentsDao.deleteDocument(id);
+      await _documentsRepository.deleteDocument(payload);
 
       await load();
     } catch (e) {
@@ -45,7 +45,7 @@ class DocumentsViewmodel extends ChangeNotifier {
 
   Future<void> load() async {
     try {
-      final allItems = await _documentsDao.selectDocuments();
+      final allItems = await _documentsRepository.getDocuments();
       _documents = allItems;
       notifyListeners();
     } catch (e) {

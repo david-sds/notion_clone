@@ -54,13 +54,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             TextButton(
               onPressed: () {
-                final documentId = widget.viewmodel.documents.lastOrNull?.id;
-                if (documentId == null) {
+                final document = widget.viewmodel.documents.lastOrNull;
+                if (document == null) {
                   return;
                 }
                 widget.viewmodel.update(
-                  documentId,
-                  Document(
+                  document.copyWith(
                     title: widget.viewmodel.documents.length.toStringAsFixed(1),
                   ),
                 );
@@ -69,12 +68,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             TextButton(
               onPressed: () {
-                final documentId = widget.viewmodel.documents.lastOrNull?.id;
-                if (documentId == null) {
+                final document = widget.viewmodel.documents.lastOrNull;
+                if (document == null) {
                   return;
                 }
                 widget.viewmodel.delete(
-                  documentId,
+                  document,
                 );
               },
               child: const Text('Delete'),
@@ -89,7 +88,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               children: List.generate(
                 widget.viewmodel.documents.length,
                 (index) => Text(
-                  widget.viewmodel.documents[index].title,
+                  widget.viewmodel.documents[index].title ?? '',
                 ),
               ),
             ),

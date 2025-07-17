@@ -1,4 +1,4 @@
-# frontend
+# notion_clone_frontend
 
 A new Flutter project.
 

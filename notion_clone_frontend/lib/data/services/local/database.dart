@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:notion_clone_frontend/data/services/local/documents/documents_dao.dart';
-import 'package:notion_clone_frontend/data/services/local/documents/documents_table.dart';
-import 'package:notion_clone_frontend/data/services/local/operations/operations_table.dart';
+import 'package:notion_clone_frontend/data/services/local/documents/dao/documents_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/documents/table/documents_table.dart';
+import 'package:notion_clone_frontend/data/services/local/operations/table/operations_table.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 

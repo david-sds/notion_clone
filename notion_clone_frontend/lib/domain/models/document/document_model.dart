@@ -8,7 +8,7 @@ abstract class Document with _$Document {
   const Document._();
   const factory Document({
     String? id,
-    required String title,
+    String? title,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,

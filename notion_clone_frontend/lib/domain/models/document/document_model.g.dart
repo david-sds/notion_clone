@@ -9,7 +9,7 @@ part of 'document_model.dart';
 _$DocumentModelImpl _$$DocumentModelImplFromJson(Map<String, dynamic> json) =>
     _$DocumentModelImpl(
       id: json['id'] as String?,
-      title: json['title'] as String,
+      title: json['title'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),

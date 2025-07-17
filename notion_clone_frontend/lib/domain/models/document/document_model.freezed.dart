@@ -21,7 +21,7 @@ Document _$DocumentFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Document {
   String? get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get deletedAt => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $DocumentCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      String title,
+      String? title,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? deletedAt});
@@ -65,7 +65,7 @@ class _$DocumentCopyWithImpl<$Res, $Val extends Document>
   @override
   $Res call({
     Object? id = freezed,
-    Object? title = null,
+    Object? title = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
@@ -75,10 +75,10 @@ class _$DocumentCopyWithImpl<$Res, $Val extends Document>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$DocumentModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
-      String title,
+      String? title,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? deletedAt});
@@ -125,7 +125,7 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? title = null,
+    Object? title = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
@@ -135,10 +135,10 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -159,11 +159,7 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DocumentModelImpl extends _DocumentModel {
   const _$DocumentModelImpl(
-      {this.id,
-      required this.title,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt})
+      {this.id, this.title, this.createdAt, this.updatedAt, this.deletedAt})
       : super._();
 
   factory _$DocumentModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -172,7 +168,7 @@ class _$DocumentModelImpl extends _DocumentModel {
   @override
   final String? id;
   @override
-  final String title;
+  final String? title;
   @override
   final DateTime? createdAt;
   @override
@@ -224,7 +220,7 @@ class _$DocumentModelImpl extends _DocumentModel {
 abstract class _DocumentModel extends Document {
   const factory _DocumentModel(
       {final String? id,
-      required final String title,
+      final String? title,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final DateTime? deletedAt}) = _$DocumentModelImpl;
@@ -236,7 +232,7 @@ abstract class _DocumentModel extends Document {
   @override
   String? get id;
   @override
-  String get title;
+  String? get title;
   @override
   DateTime? get createdAt;
   @override

@@ -1,4 +1,4 @@
-package com.example.frontend
+package com.example.notion_clone_frontend
 
 import io.flutter.embedding.android.FlutterActivity
 

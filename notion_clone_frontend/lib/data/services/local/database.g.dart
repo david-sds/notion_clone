@@ -19,10 +19,10 @@ class $DocumentsTableTable extends DocumentsTable
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
+      'title', aliasedName, true,
       additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 512),
       type: DriftSqlType.string,
-      requiredDuringInsert: true);
+      requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -64,8 +64,6 @@ class $DocumentsTableTable extends DocumentsTable
     if (data.containsKey('title')) {
       context.handle(
           _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    } else if (isInserting) {
-      context.missing(_titleMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -91,7 +89,7 @@ class $DocumentsTableTable extends DocumentsTable
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}title']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -110,13 +108,13 @@ class $DocumentsTableTable extends DocumentsTable
 class DocumentsTableData extends DataClass
     implements Insertable<DocumentsTableData> {
   final String id;
-  final String title;
+  final String? title;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
   const DocumentsTableData(
       {required this.id,
-      required this.title,
+      this.title,
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt});
@@ -124,7 +122,9 @@ class DocumentsTableData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
-    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || title != null) {
+      map['title'] = Variable<String>(title);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     if (!nullToAbsent || deletedAt != null) {
@@ -136,7 +136,8 @@ class DocumentsTableData extends DataClass
   DocumentsTableCompanion toCompanion(bool nullToAbsent) {
     return DocumentsTableCompanion(
       id: Value(id),
-      title: Value(title),
+      title:
+          title == null && nullToAbsent ? const Value.absent() : Value(title),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deletedAt: deletedAt == null && nullToAbsent
@@ -150,7 +151,7 @@ class DocumentsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DocumentsTableData(
       id: serializer.fromJson<String>(json['id']),
-      title: serializer.fromJson<String>(json['title']),
+      title: serializer.fromJson<String?>(json['title']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -161,7 +162,7 @@ class DocumentsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
-      'title': serializer.toJson<String>(title),
+      'title': serializer.toJson<String?>(title),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -170,13 +171,13 @@ class DocumentsTableData extends DataClass
 
   DocumentsTableData copyWith(
           {String? id,
-          String? title,
+          Value<String?> title = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt,
           Value<DateTime?> deletedAt = const Value.absent()}) =>
       DocumentsTableData(
         id: id ?? this.id,
-        title: title ?? this.title,
+        title: title.present ? title.value : this.title,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
@@ -218,7 +219,7 @@ class DocumentsTableData extends DataClass
 
 class DocumentsTableCompanion extends UpdateCompanion<DocumentsTableData> {
   final Value<String> id;
-  final Value<String> title;
+  final Value<String?> title;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<DateTime?> deletedAt;
@@ -233,12 +234,12 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentsTableData> {
   });
   DocumentsTableCompanion.insert({
     this.id = const Value.absent(),
-    required String title,
+    this.title = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : title = Value(title);
+  });
   static Insertable<DocumentsTableData> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -259,7 +260,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentsTableData> {
 
   DocumentsTableCompanion copyWith(
       {Value<String>? id,
-      Value<String>? title,
+      Value<String?>? title,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<DateTime?>? deletedAt,
@@ -322,7 +323,9 @@ class $OperationsTableTable extends OperationsTable
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      clientDefault: () => const Uuid().v4());
   static const VerificationMeta _entityMeta = const VerificationMeta('entity');
   @override
   late final GeneratedColumn<String> entity = GeneratedColumn<String>(
@@ -344,7 +347,9 @@ class $OperationsTableTable extends OperationsTable
   @override
   late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
       'timestamp', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      clientDefault: () => DateTime.now());
   static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
   @override
   late final GeneratedColumn<String> userId = GeneratedColumn<String>(
@@ -366,8 +371,6 @@ class $OperationsTableTable extends OperationsTable
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('entity')) {
       context.handle(_entityMeta,
@@ -390,8 +393,6 @@ class $OperationsTableTable extends OperationsTable
     if (data.containsKey('timestamp')) {
       context.handle(_timestampMeta,
           timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
-    } else if (isInserting) {
-      context.missing(_timestampMeta);
     }
     if (data.containsKey('user_id')) {
       context.handle(_userIdMeta,
@@ -563,18 +564,16 @@ class OperationsTableCompanion extends UpdateCompanion<OperationsTableData> {
     this.rowid = const Value.absent(),
   });
   OperationsTableCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String entity,
     required String type,
     required String payload,
-    required DateTime timestamp,
+    this.timestamp = const Value.absent(),
     required String userId,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        entity = Value(entity),
+  })  : entity = Value(entity),
         type = Value(type),
         payload = Value(payload),
-        timestamp = Value(timestamp),
         userId = Value(userId);
   static Insertable<OperationsTableData> custom({
     Expression<String>? id,
@@ -675,7 +674,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$DocumentsTableTableCreateCompanionBuilder = DocumentsTableCompanion
     Function({
   Value<String> id,
-  required String title,
+  Value<String?> title,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
@@ -684,7 +683,7 @@ typedef $$DocumentsTableTableCreateCompanionBuilder = DocumentsTableCompanion
 typedef $$DocumentsTableTableUpdateCompanionBuilder = DocumentsTableCompanion
     Function({
   Value<String> id,
-  Value<String> title,
+  Value<String?> title,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
@@ -794,7 +793,7 @@ class $$DocumentsTableTableTableManager extends RootTableManager<
               $$DocumentsTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
+            Value<String?> title = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -810,7 +809,7 @@ class $$DocumentsTableTableTableManager extends RootTableManager<
           ),
           createCompanionCallback: ({
             Value<String> id = const Value.absent(),
-            required String title,
+            Value<String?> title = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -848,11 +847,11 @@ typedef $$DocumentsTableTableProcessedTableManager = ProcessedTableManager<
     PrefetchHooks Function()>;
 typedef $$OperationsTableTableCreateCompanionBuilder = OperationsTableCompanion
     Function({
-  required String id,
+  Value<String> id,
   required String entity,
   required String type,
   required String payload,
-  required DateTime timestamp,
+  Value<DateTime> timestamp,
   required String userId,
   Value<int> rowid,
 });
@@ -996,11 +995,11 @@ class $$OperationsTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
           createCompanionCallback: ({
-            required String id,
+            Value<String> id = const Value.absent(),
             required String entity,
             required String type,
             required String payload,
-            required DateTime timestamp,
+            Value<DateTime> timestamp = const Value.absent(),
             required String userId,
             Value<int> rowid = const Value.absent(),
           }) =>
