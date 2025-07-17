@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:notion_clone_frontend/ui/core/layout/main_layout_screen.dart';
-import 'package:notion_clone_frontend/ui/core/not_found_screen.dart';
+import 'package:notion_clone_frontend/ui/core/widgets/layout/main_layout_screen.dart';
+import 'package:notion_clone_frontend/ui/core/widgets/not_found_screen.dart';
 import 'package:notion_clone_frontend/ui/documents/widgets/documents_screen.dart';
 import 'package:provider/provider.dart';
 
