@@ -11,6 +11,22 @@ class DocumentsDao extends DatabaseAccessor<AppDatabase>
     with _$DocumentsDaoMixin {
   DocumentsDao(super.db);
 
+  Future<List<Document>> findAllDocuments() async {
+    final allItems = await (db.select(db.documentsTable)
+          ..where((tbl) => tbl.deletedAt.isNull()))
+        .get();
+
+    return allItems
+        .map((entity) => Document(
+              id: entity.id,
+              title: entity.title,
+              createdAt: entity.createdAt,
+              updatedAt: entity.updatedAt,
+              deletedAt: entity.deletedAt,
+            ))
+        .toList();
+  }
+
   Future<int> insertDocument(Document document) async {
     return await db.into(db.documentsTable).insert(
           DocumentsTableCompanion.insert(
@@ -42,21 +58,5 @@ class DocumentsDao extends DatabaseAccessor<AppDatabase>
         deletedAt: Value(DateTime.now()),
       ),
     );
-  }
-
-  Future<List<Document>> selectDocuments() async {
-    final allItems = await (db.select(db.documentsTable)
-          ..where((tbl) => tbl.deletedAt.isNull()))
-        .get();
-
-    return allItems
-        .map((entity) => Document(
-              id: entity.id,
-              title: entity.title,
-              createdAt: entity.createdAt,
-              updatedAt: entity.updatedAt,
-              deletedAt: entity.deletedAt,
-            ))
-        .toList();
   }
 }

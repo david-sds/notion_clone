@@ -11,6 +11,60 @@ class OperationsDao extends DatabaseAccessor<AppDatabase>
     with _$OperationsDaoMixin {
   OperationsDao(super.db);
 
+  Future<List<Operation>> findAllOperations() async {
+    final allItems = await (db.select(db.operationsTable)).get();
+
+    return allItems
+        .map((entity) => Operation(
+              id: entity.id,
+              payload: entity.payload,
+              entity: EntityType.values.firstWhere(
+                (entityType) => entityType.name == entity.entity,
+              ),
+              type: OperationType.values.firstWhere(
+                (operationType) => operationType.name == entity.type,
+              ),
+              timestamp: entity.timestamp,
+              userId: entity.userId,
+            ))
+        .toList();
+  }
+
+  Future<List<Operation>> findOperationsSince(
+    EntityType entityType,
+    DateTime lastSync, {
+    orderByTimestamp = OrderingMode.asc,
+  }) async {
+    final operationsSinceSync = await (db.select(db.operationsTable)
+          ..where(
+            (tbl) =>
+                tbl.entity.equals(entityType.name) &
+                tbl.timestamp.isBiggerThanValue(lastSync),
+          )
+          ..orderBy([
+            (tbl) => OrderingTerm(
+                  expression: tbl.timestamp,
+                  mode: orderByTimestamp,
+                ),
+          ]))
+        .get();
+
+    return operationsSinceSync
+        .map((entity) => Operation(
+              id: entity.id,
+              payload: entity.payload,
+              entity: EntityType.values.firstWhere(
+                (entityType) => entityType.name == entity.entity,
+              ),
+              type: OperationType.values.firstWhere(
+                (operationType) => operationType.name == entity.type,
+              ),
+              timestamp: entity.timestamp,
+              userId: entity.userId,
+            ))
+        .toList();
+  }
+
   Future<int> insertOperation(Operation payload) async {
     return await db.into(db.operationsTable).insert(
           OperationsTableCompanion.insert(

@@ -21,10 +21,10 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Operation {
   String? get id => throw _privateConstructorUsedError;
-  OperationEntity get entity => throw _privateConstructorUsedError;
+  EntityType get entity => throw _privateConstructorUsedError;
   OperationType get type => throw _privateConstructorUsedError;
   String get payload => throw _privateConstructorUsedError;
-  DateTime? get timestamp => throw _privateConstructorUsedError;
+  DateTime get timestamp => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
   /// Serializes this Operation to a JSON map.
@@ -44,10 +44,10 @@ abstract class $OperationCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      OperationEntity entity,
+      EntityType entity,
       OperationType type,
       String payload,
-      DateTime? timestamp,
+      DateTime timestamp,
       String userId});
 }
 
@@ -70,7 +70,7 @@ class _$OperationCopyWithImpl<$Res, $Val extends Operation>
     Object? entity = null,
     Object? type = null,
     Object? payload = null,
-    Object? timestamp = freezed,
+    Object? timestamp = null,
     Object? userId = null,
   }) {
     return _then(_value.copyWith(
@@ -81,7 +81,7 @@ class _$OperationCopyWithImpl<$Res, $Val extends Operation>
       entity: null == entity
           ? _value.entity
           : entity // ignore: cast_nullable_to_non_nullable
-              as OperationEntity,
+              as EntityType,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -90,10 +90,10 @@ class _$OperationCopyWithImpl<$Res, $Val extends Operation>
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as String,
-      timestamp: freezed == timestamp
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -112,10 +112,10 @@ abstract class _$$DocumentModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
-      OperationEntity entity,
+      EntityType entity,
       OperationType type,
       String payload,
-      DateTime? timestamp,
+      DateTime timestamp,
       String userId});
 }
 
@@ -136,7 +136,7 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
     Object? entity = null,
     Object? type = null,
     Object? payload = null,
-    Object? timestamp = freezed,
+    Object? timestamp = null,
     Object? userId = null,
   }) {
     return _then(_$DocumentModelImpl(
@@ -147,7 +147,7 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
       entity: null == entity
           ? _value.entity
           : entity // ignore: cast_nullable_to_non_nullable
-              as OperationEntity,
+              as EntityType,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -156,10 +156,10 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as String,
-      timestamp: freezed == timestamp
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ class _$DocumentModelImpl implements _DocumentModel {
       required this.entity,
       required this.type,
       required this.payload,
-      this.timestamp,
+      required this.timestamp,
       required this.userId});
 
   factory _$DocumentModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -185,13 +185,13 @@ class _$DocumentModelImpl implements _DocumentModel {
   @override
   final String? id;
   @override
-  final OperationEntity entity;
+  final EntityType entity;
   @override
   final OperationType type;
   @override
   final String payload;
   @override
-  final DateTime? timestamp;
+  final DateTime timestamp;
   @override
   final String userId;
 
@@ -238,10 +238,10 @@ class _$DocumentModelImpl implements _DocumentModel {
 abstract class _DocumentModel implements Operation {
   const factory _DocumentModel(
       {final String? id,
-      required final OperationEntity entity,
+      required final EntityType entity,
       required final OperationType type,
       required final String payload,
-      final DateTime? timestamp,
+      required final DateTime timestamp,
       required final String userId}) = _$DocumentModelImpl;
 
   factory _DocumentModel.fromJson(Map<String, dynamic> json) =
@@ -250,13 +250,13 @@ abstract class _DocumentModel implements Operation {
   @override
   String? get id;
   @override
-  OperationEntity get entity;
+  EntityType get entity;
   @override
   OperationType get type;
   @override
   String get payload;
   @override
-  DateTime? get timestamp;
+  DateTime get timestamp;
   @override
   String get userId;
 

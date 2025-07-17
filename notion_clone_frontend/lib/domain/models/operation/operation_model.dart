@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'operation_model.freezed.dart';
 part 'operation_model.g.dart';
 
-enum OperationEntity { document }
+enum EntityType { document }
 
 enum OperationType { create, update, delete }
 
@@ -11,10 +11,10 @@ enum OperationType { create, update, delete }
 abstract class Operation with _$Operation {
   const factory Operation({
     String? id,
-    required OperationEntity entity,
+    required EntityType entity,
     required OperationType type,
     required String payload,
-    DateTime? timestamp,
+    required DateTime timestamp,
     required String userId,
   }) = _DocumentModel;
 

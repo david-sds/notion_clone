@@ -21,16 +21,17 @@ class DocumentRepositoryImpl extends DocumentsRepository {
 
   @override
   Future<List<Document>> getDocuments() async {
-    return await _documentsDao.selectDocuments();
+    return await _documentsDao.findAllDocuments();
   }
 
   @override
   Future<void> createDocument(Document document) async {
     final operation = Operation(
-      entity: OperationEntity.document,
+      entity: EntityType.document,
       type: OperationType.create,
       payload: document.toJson().toString(),
       userId: 'userId',
+      timestamp: DateTime.now(),
     );
 
     await _db.transaction<void>(() async {
@@ -42,10 +43,11 @@ class DocumentRepositoryImpl extends DocumentsRepository {
   @override
   Future<void> updateDocument(Document document) async {
     final op = Operation(
-      entity: OperationEntity.document,
+      entity: EntityType.document,
       type: OperationType.update,
       payload: document.toJson().toString(),
       userId: 'userId',
+      timestamp: DateTime.now(),
     );
 
     final documentId = document.id;
@@ -63,9 +65,10 @@ class DocumentRepositoryImpl extends DocumentsRepository {
   @override
   Future<void> deleteDocument(Document document) async {
     final op = Operation(
-      entity: OperationEntity.document,
+      entity: EntityType.document,
       type: OperationType.delete,
       payload: document.toJson().toString(),
+      timestamp: DateTime.now(),
       userId: 'userId',
     );
 

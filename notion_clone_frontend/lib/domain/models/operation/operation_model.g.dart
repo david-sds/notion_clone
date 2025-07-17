@@ -9,27 +9,25 @@ part of 'operation_model.dart';
 _$DocumentModelImpl _$$DocumentModelImplFromJson(Map<String, dynamic> json) =>
     _$DocumentModelImpl(
       id: json['id'] as String?,
-      entity: $enumDecode(_$OperationEntityEnumMap, json['entity']),
+      entity: $enumDecode(_$EntityTypeEnumMap, json['entity']),
       type: $enumDecode(_$OperationTypeEnumMap, json['type']),
       payload: json['payload'] as String,
-      timestamp: json['timestamp'] == null
-          ? null
-          : DateTime.parse(json['timestamp'] as String),
+      timestamp: DateTime.parse(json['timestamp'] as String),
       userId: json['userId'] as String,
     );
 
 Map<String, dynamic> _$$DocumentModelImplToJson(_$DocumentModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'entity': _$OperationEntityEnumMap[instance.entity]!,
+      'entity': _$EntityTypeEnumMap[instance.entity]!,
       'type': _$OperationTypeEnumMap[instance.type]!,
       'payload': instance.payload,
-      'timestamp': instance.timestamp?.toIso8601String(),
+      'timestamp': instance.timestamp.toIso8601String(),
       'userId': instance.userId,
     };
 
-const _$OperationEntityEnumMap = {
-  OperationEntity.document: 'document',
+const _$EntityTypeEnumMap = {
+  EntityType.document: 'document',
 };
 
 const _$OperationTypeEnumMap = {
