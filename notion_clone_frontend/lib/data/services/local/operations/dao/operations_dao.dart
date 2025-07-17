@@ -32,15 +32,19 @@ class OperationsDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<Operation>> findOperationsSince(
     EntityType entityType,
-    DateTime lastSync, {
+    DateTime? lastSync, {
     orderByTimestamp = OrderingMode.asc,
   }) async {
     final operationsSinceSync = await (db.select(db.operationsTable)
-          ..where(
-            (tbl) =>
-                tbl.entity.equals(entityType.name) &
-                tbl.timestamp.isBiggerThanValue(lastSync),
-          )
+          ..where((tbl) {
+            final conditions = [tbl.entity.equals(entityType.name)];
+
+            if (lastSync != null) {
+              conditions.add(tbl.timestamp.isBiggerThanValue(lastSync));
+            }
+
+            return conditions.reduce((a, b) => a & b);
+          })
           ..orderBy([
             (tbl) => OrderingTerm(
                   expression: tbl.timestamp,

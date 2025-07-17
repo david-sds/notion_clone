@@ -24,12 +24,16 @@ class SyncStatesDao extends DatabaseAccessor<AppDatabase>
         .toList();
   }
 
-  Future<DateTime> findLastSync(EntityType entityType) async {
-    final entitySync = await (db.select(db.syncStatesTable)
+  Future<DateTime?> findLastSync(EntityType entityType) async {
+    final entities = await (db.select(db.syncStatesTable)
           ..where((tbl) => tbl.entity.equals(entityType.name)))
-        .getSingle();
+        .get();
 
-    return entitySync.lastSyncedAt;
+    if (entities.isEmpty) {
+      return null;
+    }
+
+    return entities[0].lastSyncedAt;
   }
 
   Future<int> upsertSyncState(SyncState syncState) async {
