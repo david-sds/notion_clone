@@ -1,8 +1,8 @@
+import 'package:notion_clone_frontend/core/database/database.dart';
 import 'package:notion_clone_frontend/data/repository/documents/document_repository_impl.dart';
-import 'package:notion_clone_frontend/data/services/local/database.dart';
-import 'package:notion_clone_frontend/data/services/local/documents/dao/documents_dao.dart';
-import 'package:notion_clone_frontend/data/services/local/operations/dao/operations_dao.dart';
-import 'package:notion_clone_frontend/data/services/local/sync_states/dao/sync_states_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/documents/documents_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/operations/operations_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/sync_states/sync_states_dao.dart';
 import 'package:notion_clone_frontend/data/services/remote/operations/operations_api.dart';
 import 'package:notion_clone_frontend/data/services/sync_service/sync_service.dart';
 import 'package:notion_clone_frontend/ui/documents/view_models/documents_viewmodel.dart';

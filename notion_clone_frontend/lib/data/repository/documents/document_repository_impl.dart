@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:notion_clone_frontend/core/database/database.dart';
 import 'package:notion_clone_frontend/core/exceptions/invalid_uuid_exception.dart';
 import 'package:notion_clone_frontend/data/repository/documents/documents_repository.dart';
-import 'package:notion_clone_frontend/data/services/local/database.dart';
-import 'package:notion_clone_frontend/data/services/local/documents/dao/documents_dao.dart';
-import 'package:notion_clone_frontend/data/services/local/operations/dao/operations_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/documents/documents_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/operations/operations_dao.dart';
 import 'package:notion_clone_frontend/data/services/sync_service/sync_service.dart';
 import 'package:notion_clone_frontend/domain/models/document/document_model.dart';
 import 'package:notion_clone_frontend/domain/models/operation/operation_model.dart';

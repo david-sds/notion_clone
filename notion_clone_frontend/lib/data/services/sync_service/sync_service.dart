@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:notion_clone_frontend/data/services/local/operations/dao/operations_dao.dart';
-import 'package:notion_clone_frontend/data/services/local/sync_states/dao/sync_states_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/operations/operations_dao.dart';
+import 'package:notion_clone_frontend/data/services/local/sync_states/sync_states_dao.dart';
 import 'package:notion_clone_frontend/data/services/remote/operations/operations_api.dart';
 import 'package:notion_clone_frontend/domain/models/operation/operation_model.dart';
 import 'package:notion_clone_frontend/domain/models/sync_state/sync_state_model.dart';

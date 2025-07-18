@@ -1,12 +1,11 @@
 import 'package:drift/drift.dart';
-import 'package:notion_clone_frontend/data/services/local/database.dart';
-import 'package:notion_clone_frontend/data/services/local/sync_states/table/sync_state_table.dart';
+import 'package:notion_clone_frontend/core/database/database.dart';
 import 'package:notion_clone_frontend/domain/models/operation/operation_model.dart';
 import 'package:notion_clone_frontend/domain/models/sync_state/sync_state_model.dart';
 
 part 'sync_states_dao.g.dart';
 
-@DriftAccessor(tables: [SyncStatesTable])
+@DriftAccessor(tables: [SyncStatesDao])
 class SyncStatesDao extends DatabaseAccessor<AppDatabase>
     with _$SyncStatesDaoMixin {
   SyncStatesDao(super.db);

@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:notion_clone_frontend/data/services/local/database.dart';
-import 'package:notion_clone_frontend/data/services/local/operations/table/operations_table.dart';
+import 'package:notion_clone_frontend/core/database/database.dart';
+import 'package:notion_clone_frontend/core/database/tables.dart';
 import 'package:notion_clone_frontend/domain/models/operation/operation_model.dart';
 import 'package:uuid/uuid.dart';
 
