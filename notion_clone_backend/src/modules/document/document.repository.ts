@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/core/prisma/prisma.service';
+import { PrismaService } from 'src/core/database/prisma.service';
 import { DocumentMapper } from './document.mapper';
 import { DocumentDto } from './dto/document.dto';
 
@@ -10,7 +10,11 @@ export class DocumentRepository {
   async create(payload: DocumentDto): Promise<DocumentDto> {
     const res = await this.prismaService.document.create({
       data: {
+        id: payload.id,
         title: payload.title,
+        databaseId: payload.database.id,
+        createdAt: payload.createdAt,
+        updatedAt: payload.updatedAt,
       },
     });
 
@@ -23,7 +27,7 @@ export class DocumentRepository {
     return res.map((e) => DocumentMapper.entityToDto(e));
   }
 
-  async findOne(id: number): Promise<DocumentDto | undefined> {
+  async findOne(id: string): Promise<DocumentDto | undefined> {
     const res = await this.prismaService.document.findUnique({
       where: { id: id },
     });
@@ -32,7 +36,7 @@ export class DocumentRepository {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: Partial<DocumentDto>,
   ): Promise<DocumentDto> {
     const res = await this.prismaService.document.update({
@@ -45,7 +49,7 @@ export class DocumentRepository {
     return DocumentMapper.entityToDto(res);
   }
 
-  async remove(id: number): Promise<DocumentDto> {
+  async remove(id: string): Promise<DocumentDto> {
     const res = await this.prismaService.document.delete({ where: { id: id } });
 
     return DocumentMapper.entityToDto(res);

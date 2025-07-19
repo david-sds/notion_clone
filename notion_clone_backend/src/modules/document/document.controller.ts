@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -26,20 +25,20 @@ export class DocumentController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<DocumentDto> {
+  findOne(@Param('id') id: string): Promise<DocumentDto> {
     return this.documentService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() payload: Partial<DocumentDto>,
   ): Promise<DocumentDto> {
     return this.documentService.update(id, payload);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<DocumentDto> {
+  remove(@Param('id') id: string): Promise<DocumentDto> {
     return this.documentService.remove(id);
   }
 }

@@ -18,7 +18,7 @@ export class DocumentService {
     return this.documentRepository.findAll();
   }
 
-  async findOne(id: number): Promise<DocumentDto> {
+  async findOne(id: string): Promise<DocumentDto> {
     const res = await this.documentRepository.findOne(id);
 
     if (!res) {
@@ -29,7 +29,7 @@ export class DocumentService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: Partial<DocumentDto>,
   ): Promise<DocumentDto> {
     try {
@@ -42,7 +42,7 @@ export class DocumentService {
     }
   }
 
-  async remove(id: number): Promise<DocumentDto> {
+  async remove(id: string): Promise<DocumentDto> {
     try {
       return await this.documentRepository.remove(id);
     } catch (e) {
