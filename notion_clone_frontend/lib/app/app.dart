@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notion_clone_frontend/routing/router.dart';
+import 'package:notion_clone_frontend/core/routing/router.dart';
 import 'package:notion_clone_frontend/ui/settings/view_models/settings_viewmodel.dart';
 import 'package:provider/provider.dart';
 
