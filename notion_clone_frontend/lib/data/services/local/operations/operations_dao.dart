@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:notion_clone_frontend/core/database/database.dart';
 import 'package:notion_clone_frontend/core/database/tables.dart';
@@ -14,20 +16,7 @@ class OperationsDao extends DatabaseAccessor<AppDatabase>
   Future<List<Operation>> findAllOperations() async {
     final allItems = await (db.select(db.operationsTable)).get();
 
-    return allItems
-        .map((entity) => Operation(
-              id: entity.id,
-              payload: entity.payload,
-              entity: EntityType.values.firstWhere(
-                (entityType) => entityType.name == entity.entity,
-              ),
-              type: OperationType.values.firstWhere(
-                (operationType) => operationType.name == entity.type,
-              ),
-              timestamp: entity.timestamp,
-              userId: entity.userId,
-            ))
-        .toList();
+    return allItems.map(_entityToModel).toList();
   }
 
   Future<List<Operation>> findOperationsSince(
@@ -53,33 +42,35 @@ class OperationsDao extends DatabaseAccessor<AppDatabase>
           ]))
         .get();
 
-    return operationsSinceSync
-        .map((entity) => Operation(
-              id: entity.id,
-              payload: entity.payload,
-              entity: EntityType.values.firstWhere(
-                (entityType) => entityType.name == entity.entity,
-              ),
-              type: OperationType.values.firstWhere(
-                (operationType) => operationType.name == entity.type,
-              ),
-              timestamp: entity.timestamp,
-              userId: entity.userId,
-            ))
-        .toList();
+    return operationsSinceSync.map(_entityToModel).toList();
   }
 
-  Future<int> insertOperation(Operation payload) async {
+  Future<int> insertOperation(Operation operation) async {
     return await db.into(db.operationsTable).insert(
           OperationsTableCompanion.insert(
             id: Value(const Uuid().v4()),
-            entity: payload.entity.name,
+            entity: operation.entity.name,
             timestamp: Value(DateTime.now()),
-            payload: payload.payload,
-            type: payload.type.name,
-            userId: payload.userId,
+            payload: jsonEncode(operation.payload),
+            type: operation.type.name,
+            userId: operation.userId,
           ),
           mode: InsertMode.insert,
         );
+  }
+
+  Operation _entityToModel(OperationsTableData entity) {
+    return Operation(
+      id: entity.id,
+      payload: jsonDecode(entity.payload),
+      entity: EntityType.values.firstWhere(
+        (entityType) => entityType.name == entity.entity,
+      ),
+      type: OperationType.values.firstWhere(
+        (operationType) => operationType.name == entity.type,
+      ),
+      timestamp: entity.timestamp.toUtc(),
+      userId: entity.userId,
+    );
   }
 }

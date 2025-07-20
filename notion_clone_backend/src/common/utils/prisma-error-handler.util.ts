@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 
 export function handlePrismaError(e: Prisma.PrismaClientKnownRequestError) {
   switch (e.code) {

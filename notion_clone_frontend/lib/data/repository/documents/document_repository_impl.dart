@@ -32,16 +32,17 @@ class DocumentRepositoryImpl extends DocumentsRepository {
 
   @override
   Future<void> createDocument(Document document) async {
-    final operation = Operation(
-      entity: EntityType.document,
-      type: OperationType.create,
-      payload: document.toJson().toString(),
-      userId: 'userId',
-      timestamp: DateTime.now(),
-    );
-
     await _db.transaction<void>(() async {
-      await _documentsDao.insertDocument(document);
+      final response = await _documentsDao.insertDocument(document);
+
+      final operation = Operation(
+        entity: EntityType.document,
+        type: OperationType.create,
+        payload: response.toJson(),
+        userId: 'userId',
+        timestamp: DateTime.now(),
+      );
+
       await _operationsDao.insertOperation(operation);
     });
 
@@ -50,14 +51,6 @@ class DocumentRepositoryImpl extends DocumentsRepository {
 
   @override
   Future<void> updateDocument(Document document) async {
-    final op = Operation(
-      entity: EntityType.document,
-      type: OperationType.update,
-      payload: document.toJson().toString(),
-      userId: 'userId',
-      timestamp: DateTime.now(),
-    );
-
     final documentId = document.id;
 
     if (documentId == null) {
@@ -65,7 +58,16 @@ class DocumentRepositoryImpl extends DocumentsRepository {
     }
 
     await _db.transaction(() async {
-      await _documentsDao.updateDocument(documentId, document);
+      final response = await _documentsDao.updateDocument(documentId, document);
+
+      final op = Operation(
+        entity: EntityType.document,
+        type: OperationType.update,
+        payload: response.toJson(),
+        userId: 'userId',
+        timestamp: DateTime.now(),
+      );
+
       await _operationsDao.insertOperation(op);
     });
 
@@ -74,14 +76,6 @@ class DocumentRepositoryImpl extends DocumentsRepository {
 
   @override
   Future<void> deleteDocument(Document document) async {
-    final op = Operation(
-      entity: EntityType.document,
-      type: OperationType.delete,
-      payload: document.toJson().toString(),
-      timestamp: DateTime.now(),
-      userId: 'userId',
-    );
-
     final documentId = document.id;
 
     if (documentId == null) {
@@ -89,7 +83,16 @@ class DocumentRepositoryImpl extends DocumentsRepository {
     }
 
     await _db.transaction(() async {
-      await _documentsDao.deleteDocument(documentId);
+      final response = await _documentsDao.deleteDocument(documentId);
+
+      final op = Operation(
+        entity: EntityType.document,
+        type: OperationType.delete,
+        payload: response.toJson(),
+        timestamp: DateTime.now(),
+        userId: 'userId',
+      );
+
       await _operationsDao.insertOperation(op);
     });
 

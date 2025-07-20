@@ -13,7 +13,7 @@ abstract class Operation with _$Operation {
     String? id,
     required EntityType entity,
     required OperationType type,
-    required String payload,
+    required Map<String, dynamic> payload,
     required DateTime timestamp,
     required String userId,
   }) = _DocumentModel;

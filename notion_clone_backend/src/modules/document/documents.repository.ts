@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/core/database/prisma.service';
-import { DocumentMapper } from './document.mapper';
+import { DocumentsMapper } from './documents.mapper';
 import { DocumentDto } from './dto/document.dto';
 
 @Injectable()
-export class DocumentRepository {
+export class DocumentsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(payload: DocumentDto): Promise<DocumentDto> {
@@ -12,19 +12,19 @@ export class DocumentRepository {
       data: {
         id: payload.id,
         title: payload.title,
-        databaseId: payload.database.id,
+        // databaseId: payload.database.id,
         createdAt: payload.createdAt,
         updatedAt: payload.updatedAt,
       },
     });
 
-    return DocumentMapper.entityToDto(res);
+    return DocumentsMapper.entityToDto(res);
   }
 
   async findAll(): Promise<DocumentDto[]> {
     const res = await this.prismaService.document.findMany();
 
-    return res.map((e) => DocumentMapper.entityToDto(e));
+    return res.map((e) => DocumentsMapper.entityToDto(e));
   }
 
   async findOne(id: string): Promise<DocumentDto | undefined> {
@@ -32,7 +32,7 @@ export class DocumentRepository {
       where: { id: id },
     });
 
-    return DocumentMapper.entityToDto(res);
+    return DocumentsMapper.entityToDto(res);
   }
 
   async update(
@@ -46,12 +46,6 @@ export class DocumentRepository {
       },
     });
 
-    return DocumentMapper.entityToDto(res);
-  }
-
-  async remove(id: string): Promise<DocumentDto> {
-    const res = await this.prismaService.document.delete({ where: { id: id } });
-
-    return DocumentMapper.entityToDto(res);
+    return DocumentsMapper.entityToDto(res);
   }
 }

@@ -3,7 +3,8 @@ import 'package:notion_clone_frontend/domain/models/operation/operation_model.da
 
 class OperationsApi {
   Future<bool> pushOperations(List<Operation> operations) async {
-    final response = await HTTP().post(
+    print(operations.first.timestamp);
+    final response = await http.post(
       '/operations',
       data: operations.map((e) => e.toJson()).toList(),
     );

@@ -16,19 +16,11 @@ class DocumentsDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.deletedAt.isNull()))
         .get();
 
-    return allItems
-        .map((entity) => Document(
-              id: entity.id,
-              title: entity.title,
-              createdAt: entity.createdAt,
-              updatedAt: entity.updatedAt,
-              deletedAt: entity.deletedAt,
-            ))
-        .toList();
+    return allItems.map(_entityToModel).toList();
   }
 
-  Future<int> insertDocument(Document document) async {
-    return await db.into(db.documentsTable).insert(
+  Future<Document> insertDocument(Document document) async {
+    final entity = await db.into(db.documentsTable).insertReturning(
           DocumentsTableCompanion.insert(
             id: Value(const Uuid().v4()),
             title: Value(document.title),
@@ -37,26 +29,42 @@ class DocumentsDao extends DatabaseAccessor<AppDatabase>
           ),
           mode: InsertMode.insert,
         );
+
+    return _entityToModel(entity);
   }
 
-  Future<int> updateDocument(String id, Document document) async {
-    return await (db.update(db.documentsTable)
+  Future<Document> updateDocument(String id, Document document) async {
+    final entities = await (db.update(db.documentsTable)
           ..where((tbl) => tbl.id.equals(id)))
-        .write(
+        .writeReturning(
       DocumentsTableCompanion(
         title: Value(document.title ?? ''),
         updatedAt: Value(DateTime.now()),
       ),
     );
+
+    return _entityToModel(entities.first);
   }
 
-  Future<int> deleteDocument(String id) async {
-    return await (db.update(db.documentsTable)
+  Future<Document> deleteDocument(String id) async {
+    final entities = await (db.update(db.documentsTable)
           ..where((tbl) => tbl.id.equals(id)))
-        .write(
+        .writeReturning(
       DocumentsTableCompanion(
         deletedAt: Value(DateTime.now()),
       ),
+    );
+
+    return _entityToModel(entities.first);
+  }
+
+  Document _entityToModel(DocumentsTableData entity) {
+    return Document(
+      id: entity.id,
+      title: entity.title,
+      createdAt: entity.createdAt.toUtc(),
+      updatedAt: entity.updatedAt.toUtc(),
+      deletedAt: entity.deletedAt?.toUtc(),
     );
   }
 }

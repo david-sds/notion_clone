@@ -11,7 +11,7 @@ _$DocumentModelImpl _$$DocumentModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       entity: $enumDecode(_$EntityTypeEnumMap, json['entity']),
       type: $enumDecode(_$OperationTypeEnumMap, json['type']),
-      payload: json['payload'] as String,
+      payload: json['payload'] as Map<String, dynamic>,
       timestamp: DateTime.parse(json['timestamp'] as String),
       userId: json['userId'] as String,
     );

@@ -23,7 +23,7 @@ mixin _$Operation {
   String? get id => throw _privateConstructorUsedError;
   EntityType get entity => throw _privateConstructorUsedError;
   OperationType get type => throw _privateConstructorUsedError;
-  String get payload => throw _privateConstructorUsedError;
+  Map<String, dynamic> get payload => throw _privateConstructorUsedError;
   DateTime get timestamp => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
@@ -46,7 +46,7 @@ abstract class $OperationCopyWith<$Res> {
       {String? id,
       EntityType entity,
       OperationType type,
-      String payload,
+      Map<String, dynamic> payload,
       DateTime timestamp,
       String userId});
 }
@@ -89,7 +89,7 @@ class _$OperationCopyWithImpl<$Res, $Val extends Operation>
       payload: null == payload
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, dynamic>,
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -114,7 +114,7 @@ abstract class _$$DocumentModelImplCopyWith<$Res>
       {String? id,
       EntityType entity,
       OperationType type,
-      String payload,
+      Map<String, dynamic> payload,
       DateTime timestamp,
       String userId});
 }
@@ -153,9 +153,9 @@ class __$$DocumentModelImplCopyWithImpl<$Res>
           : type // ignore: cast_nullable_to_non_nullable
               as OperationType,
       payload: null == payload
-          ? _value.payload
+          ? _value._payload
           : payload // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, dynamic>,
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -175,9 +175,10 @@ class _$DocumentModelImpl implements _DocumentModel {
       {this.id,
       required this.entity,
       required this.type,
-      required this.payload,
+      required final Map<String, dynamic> payload,
       required this.timestamp,
-      required this.userId});
+      required this.userId})
+      : _payload = payload;
 
   factory _$DocumentModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DocumentModelImplFromJson(json);
@@ -188,8 +189,14 @@ class _$DocumentModelImpl implements _DocumentModel {
   final EntityType entity;
   @override
   final OperationType type;
+  final Map<String, dynamic> _payload;
   @override
-  final String payload;
+  Map<String, dynamic> get payload {
+    if (_payload is EqualUnmodifiableMapView) return _payload;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_payload);
+  }
+
   @override
   final DateTime timestamp;
   @override
@@ -208,7 +215,7 @@ class _$DocumentModelImpl implements _DocumentModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.entity, entity) || other.entity == entity) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.payload, payload) || other.payload == payload) &&
+            const DeepCollectionEquality().equals(other._payload, _payload) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             (identical(other.userId, userId) || other.userId == userId));
@@ -216,8 +223,8 @@ class _$DocumentModelImpl implements _DocumentModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, entity, type, payload, timestamp, userId);
+  int get hashCode => Object.hash(runtimeType, id, entity, type,
+      const DeepCollectionEquality().hash(_payload), timestamp, userId);
 
   /// Create a copy of Operation
   /// with the given fields replaced by the non-null parameter values.
@@ -240,7 +247,7 @@ abstract class _DocumentModel implements Operation {
       {final String? id,
       required final EntityType entity,
       required final OperationType type,
-      required final String payload,
+      required final Map<String, dynamic> payload,
       required final DateTime timestamp,
       required final String userId}) = _$DocumentModelImpl;
 
@@ -254,7 +261,7 @@ abstract class _DocumentModel implements Operation {
   @override
   OperationType get type;
   @override
-  String get payload;
+  Map<String, dynamic> get payload;
   @override
   DateTime get timestamp;
   @override
